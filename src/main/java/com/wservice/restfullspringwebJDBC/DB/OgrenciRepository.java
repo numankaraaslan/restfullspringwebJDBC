@@ -81,4 +81,17 @@ public class OgrenciRepository
 			}
 		}, number);
 	}
+
+	public Ogrenci getOgrenciByNumber(int number)
+	{
+		String sql = "SELECT * FROM \"OBS\".\"OGRENCI\" WHERE \"OGR_NUM\" = ?";
+		return jdbcTemplate.queryForObject(sql, new RowMapper<Ogrenci>()
+		{
+			@Override
+			public Ogrenci mapRow(ResultSet rs, int rowNum) throws SQLException
+			{
+				return new Ogrenci(rs.getInt("OGR_NUM"), rs.getString("OGR_NAME"));
+			}
+		}, number);
+	}
 }
