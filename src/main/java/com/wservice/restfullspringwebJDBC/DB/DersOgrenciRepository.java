@@ -4,11 +4,9 @@ import java.util.HashMap;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import com.wservice.restfullspringwebJDBC.model.Ogrenci;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 
-@Setter
-@NoArgsConstructor
+@AllArgsConstructor
 public class DersOgrenciRepository
 {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -24,8 +22,8 @@ public class DersOgrenciRepository
 		namedParameterJdbcTemplate.update(sql, paramMap);
 		sql = "INSERT INTO \"OBS\".\"DERS_OGRENCI\"(\"OGRENCI_ID\", \"DERS_ID\") VALUES (:OGRENCI_ID, :DERS_ID)";
 		paramMap = new HashMap<>();
-		paramMap.put("OGR_NUM", null);
-		paramMap.put("OGR_NAME", ogrenci.getIsim());
+		paramMap.put("OGRENCI_ID", ogrenci.getId());
+		paramMap.put("DERS_ID", dersId);
 		res = namedParameterJdbcTemplate.update(sql, paramMap) > 0;
 		return res;
 	}
