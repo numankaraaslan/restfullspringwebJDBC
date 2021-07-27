@@ -2,6 +2,7 @@ package com.wservice.restfullspringwebJDBC;
 
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.wservice.restfullspringwebJDBC.DB.OgrenciRepository;
+import com.wservice.restfullspringwebJDBC.DB.OgretmenRepository;
 import com.wservice.restfullspringwebJDBC.model.Ogrenci;
+import com.wservice.restfullspringwebJDBC.model.Ogretmen;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -17,6 +20,8 @@ import lombok.AllArgsConstructor;
 public class MyRestController
 {
 	private OgrenciRepository ogrenciRepo;
+
+	private OgretmenRepository ogretmenRepo;
 
 	// http://localhost:8080/restfullspringwebJDBC/getOgrenciler
 	@GetMapping(path = "/getOgrenciler")
@@ -42,5 +47,12 @@ public class MyRestController
 	public ResponseEntity<Ogrenci> getOgrenci(@RequestParam(name = "number", required = true) int number)
 	{
 		return new ResponseEntity<>(ogrenciRepo.getOgrenciByNumber(number), HttpStatus.OK);
+	}
+
+	// http://localhost:8080/restfullspringwebJDBC/getOgretmenlerList
+	@GetMapping(path = "/getOgretmenlerList", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Ogretmen> getOgretmenList()
+	{
+		return ogretmenRepo.getAllOgretmenler();
 	}
 }
