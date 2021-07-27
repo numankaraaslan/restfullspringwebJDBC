@@ -7,8 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.wservice.restfullspringwebJDBC.DB.DersOgrenciRepository;
 import com.wservice.restfullspringwebJDBC.DB.OgrenciRepository;
 import com.wservice.restfullspringwebJDBC.DB.OgretmenRepository;
 import com.wservice.restfullspringwebJDBC.model.Ogrenci;
@@ -22,6 +25,8 @@ public class MyRestController
 	private OgrenciRepository ogrenciRepo;
 
 	private OgretmenRepository ogretmenRepo;
+
+	private DersOgrenciRepository dersOgrenciRepo;
 
 	// http://localhost:8080/restfullspringwebJDBC/getOgrenciler
 	@GetMapping(path = "/getOgrenciler")
@@ -54,5 +59,20 @@ public class MyRestController
 	public List<Ogretmen> getOgretmenList()
 	{
 		return ogretmenRepo.getAllOgretmenler();
+	}
+
+	// http://localhost:8080/restfullspringwebJDBC/postDersOgrenci
+	@PostMapping(path = "/postDersOgrenci")
+	public ResponseEntity<String> postDersOgrenci(@RequestBody Ogrenci ogrenci, @RequestParam(name = "dersId") Integer dersId)
+	{
+		// for transactional example
+		if (dersOgrenciRepo.insertDersOgrenci(7, ogrenci))
+		{
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }
